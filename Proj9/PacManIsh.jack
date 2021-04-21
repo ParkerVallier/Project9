@@ -1,0 +1,68 @@
+class PacManIsh {
+   field Player player; // the square of this game
+   field Array y, x; // Map array
+   field int direction; // the square's current direction: 
+                        // 0=none, 1=up, 2=down, 3=left, 4=right
+
+   constructor PacManIsh new() {
+      do mapSpawn();
+      let player = Player.new(0, 0, 20);
+      let direction = 0;  // initial state is no movement
+      return this;
+   }
+
+   method void dispose() {
+      do square.dispose();
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   method void movePlayer() {
+      if (direction = 1) { do player.moveUp(); }
+      if (direction = 2) { do player.moveDown(); }
+      if (direction = 3) { do player.moveLeft(); }
+      if (direction = 4) { do player.moveRight(); }
+      do Sys.wait(10);  // delays the next movement
+      return;
+   }
+
+   method void mapSpawn() {
+	do Screen.setColor(true);
+	do Screen.drawCircle(60, 60, 3);
+	do Screen.drawCircle(112, 73, 3);
+	do Screen.drawCircle(42, 99, 3);
+	do Screen.drawCircle(135, 235, 3);
+	do Screen.drawCircle(70, 69, 3);
+	do Screen.drawCircle(452, 143, 3);
+	do Screen.drawCircle(47, 196, 3);
+	do Screen.drawCircle(216, 147, 3);
+	do Screen.drawCircle(455, 97, 3);
+	return;
+   }
+
+   method void run() {
+      var char key; 
+      var boolean exit;
+      let exit = false;
+      let key = 0;
+
+      while (~exit) {
+
+	let key = Keyboard.keyPressed();
+        if (key = 81)  { let exit = true; }     // q key
+        if (key = 131) { let direction = 1; }   // up arrow
+        if (key = 133) { let direction = 2; }   // down arrow
+        if (key = 130) { let direction = 3; }   // left arrow
+        if (key = 132) { let direction = 4; }   // right arrow
+
+	while (key = Keyboard.keyPressed()){
+		do movePlayer();
+	}
+    
+     } // while
+     return;
+   }
+}
+
+
+
